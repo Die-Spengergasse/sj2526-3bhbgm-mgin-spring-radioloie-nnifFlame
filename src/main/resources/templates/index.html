@@ -1,17 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/html">
-<head>
-    <meta charset="UTF-8">
-    <title>Greeting</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-</head>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: header-head('Radiologie-Institut')}"></head>
 <body>
-<div class="container">
-    <h1>Hallo</h1>
-    Datum: <span th:text="${today}"></span>
-    <div>
-        <a href="/patient/list">patient list</a>
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <div class="container pb-5">
+        <div class="p-5 mb-4 bg-light rounded-3 shadow-sm border">
+            <div class="container-fluid py-2 text-center">
+                <h1 class="display-5 fw-bold text-dark">Radiologie-Institut</h1>
+                <p class="fs-4">Zentrales Reservierungssystem für Untersuchungsgeräte</p>
+                <p class="text-muted" th:text="'Heute ist der ' + ${today}"></p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary"><i class="bi bi-person-plus"></i> Patientenverwaltung</h5>
+                        <p class="card-text text-muted">Erfassen Sie neue Patienten im System oder verwalten Sie bestehende Patientendaten.</p>
+                        <div class="mt-auto d-grid gap-2">
+                            <a th:href="@{/patients/register}" class="btn btn-primary">Patient registrieren</a>
+                            <a th:href="@{/devices/add}" class="btn btn-dark">Gerät hinzufügen</a>
+                            <a th:href="@{/patients/list}" class="btn btn-outline-primary">Patientenliste</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-success"><i class="bi bi-calendar-check"></i> Terminreservierung</h5>
+                        <p class="card-text text-muted">Buchen Sie Untersuchungstermine für registrierte Patienten an den verfügbaren Geräten.</p>
+                        <div class="mt-auto d-grid gap-2">
+                            <a th:href="@{/reservations/add}" class="btn btn-success text-white">Reservierung erfassen</a>
+                            <a th:href="@{/reservations/list}" class="btn btn-outline-success">Reservierungslisten</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+
+    <div th:replace="~{fragments/layout :: scripts}"></div>
 </body>
 </html>

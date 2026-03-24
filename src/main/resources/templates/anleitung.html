@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: header-head('Kurze Anleitung')}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <div class="container pb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-info text-dark">
+                        <h4 class="mb-0"><i class="bi bi-info-circle"></i> Kurze Anleitung</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item py-3">
+                                <h5>1. Patienten anlegen</h5>
+                                <p class="mb-0">Zuerst einen Patienten anlegen (sonst geht nichts). Ohne registrierte Patienten können keine Termine vergeben werden.</p>
+                            </li>
+                            <li class="list-group-item py-3">
+                                <h5>2. Geräte hinzufügen</h5>
+                                <p class="mb-0">Falls ein Gerät fehlt, kannst du über "Gerät hinzufügen" neue MRT, CT oder Röntgen-Geräte ins System einpflegen.</p>
+                            </li>
+                            <li class="list-group-item py-3">
+                                <h5>3. Reservierung erstellen</h5>
+                                <p class="mb-0">Danach eine Reservierung erstellen und das gewünschte Gerät auswählen.</p>
+                            </li>
+                            <li class="list-group-item py-3">
+                                <h5>4. Reservierungslisten filtern</h5>
+                                <p class="mb-0">Bei den Reservierungslisten kann man nach Geräten filtern, um eine bessere Übersicht zu bekommen.</p>
+                            </li>
+                        </ul>
+                        <div class="mt-4 p-3 bg-light rounded border">
+                            <p class="mb-0 text-muted small">
+                                <strong>Hinweis:</strong> Die Anwendung ist vollständig responsiv und funktioniert auf Desktops, Tablets und Smartphones.
+                            </p>
+                        </div>
+                        <div class="mt-4">
+                            <a th:href="@{/}" class="btn btn-primary">Verstanden, los geht's!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

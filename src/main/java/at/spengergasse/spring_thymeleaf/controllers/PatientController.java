@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.format.DateTimeFormatter;
-
 @Controller
-@RequestMapping("/patient")
+@RequestMapping("/patients")
 public class PatientController {
     private final PatientRepository patientRepository;
 
@@ -21,20 +19,20 @@ public class PatientController {
     }
 
     @GetMapping("/list")
-    public String patients(Model model) {
+    public String listPatients(Model model) {
         model.addAttribute("patients", patientRepository.findAll());
         return "patlist";
     }
 
-    @GetMapping("/add")
-    public String addPatient(Model model) {
+    @GetMapping("/register")
+    public String showRegisterForm(Model model) {
         model.addAttribute("patient", new Patient());
         return "add_patient";
     }
 
-    @PostMapping("/add")
-    public String addPatient(@ModelAttribute("patient") Patient patient) {
+    @PostMapping("/register")
+    public String registerPatient(@ModelAttribute("patient") Patient patient) {
         patientRepository.save(patient);
-        return  "redirect:/patient/list";
+        return "redirect:/patients/list";
     }
 }

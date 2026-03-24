@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: header-head('Reservierung erfassen')}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <div class="container pb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-success text-white py-3">
+                        <h4 class="mb-0">Untersuchungszeit reservieren</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <form th:action="@{/reservations/add}" th:object="${reservation}" method="post">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <label class="form-label fw-bold">Patient auswählen</label>
+                                    <select th:field="*{patient}" class="form-select" required>
+                                        <option value="">-- Patient wählen --</option>
+                                        <option th:each="p : ${patients}" th:value="${p.id}" th:text="${p.lastName + ' ' + p.firstName + ' (' + p.socialSecurityNumber + ')'}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label fw-bold">Gerät auswählen</label>
+                                    <select th:field="*{device}" class="form-select" required>
+                                        <option value="">-- Gerät wählen --</option>
+                                        <option th:each="d : ${devices}" th:value="${d.id}" th:text="${d.type + ' - ID: ' + d.id + ' (' + d.location + ')'}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Zeitpunkt der Untersuchung</label>
+                                    <input type="datetime-local" th:field="*{reservationTime}" class="form-control" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Zu untersuchende Körperregion</label>
+                                    <select th:field="*{bodyRegion}" class="form-select" required>
+                                        <option value="Kopf">Kopf</option>
+                                        <option value="Torso">Torso</option>
+                                        <option value="Arme">Arme</option>
+                                        <option value="Beine">Beine</option>
+                                        <option value="Wirbelsäule">Wirbelsäule</option>
+                                        <option value="Sonstiges">Sonstiges</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label fw-bold">Zusätzlicher Kommentar</label>
+                                    <textarea th:field="*{comment}" class="form-control" rows="3" placeholder="Besonderheiten, Kontraindikationen..."></textarea>
+                                </div>
+                                <div class="col-12 mt-4 border-top pt-3">
+                                    <button type="submit" class="btn btn-success px-4 text-white">Reservierung speichern</button>
+                                    <a th:href="@{/}" class="btn btn-outline-secondary ms-2">Abbrechen</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

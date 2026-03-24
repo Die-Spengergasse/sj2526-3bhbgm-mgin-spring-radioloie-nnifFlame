@@ -1,17 +1,55 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/html">
-<head>
-    <meta charset="UTF-8">
-    <title>add new patient</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-</head>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: header-head('Patient registrieren')}"></head>
 <body>
-    <div class="container">
-        <form th:action="@{/patient/add}" th:object="${patient}" method="post">
-            <input type="text" th:field="*{name}" class="form-control" placeholder="patient name">
-            birth date <input type="date" th:field="*{birth}" class="form-control">
-            <input type="submit" class="form-control" value="Save">
-        </form>
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <div class="container pb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Neuen Patienten registrieren</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/patients/register}" th:object="${patient}" method="post">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <label class="form-label fw-bold">Sozialversicherungsnummer</label>
+                                    <input type="text" th:field="*{socialSecurityNumber}" class="form-control" placeholder="z.B. 1234 010170" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Vorname</label>
+                                    <input type="text" th:field="*{firstName}" class="form-control" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Nachname</label>
+                                    <input type="text" th:field="*{lastName}" class="form-control" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Geschlecht</label>
+                                    <select th:field="*{gender}" class="form-select">
+                                        <option value="Männlich">Männlich</option>
+                                        <option value="Weiblich">Weiblich</option>
+                                        <option value="Divers">Divers</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Geburtsdatum</label>
+                                    <input type="date" th:field="*{birthDate}" class="form-control" required />
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <button type="submit" class="btn btn-primary px-4">Registrieren</button>
+                                    <a th:href="@{/}" class="btn btn-outline-secondary ms-2">Abbrechen</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div th:replace="~{fragments/layout :: scripts}"></div>
 </body>
 </html>

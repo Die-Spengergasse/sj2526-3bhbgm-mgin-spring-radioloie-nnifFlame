@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: header-head('Impressum')}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <div class="container pb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        <h4 class="mb-0">Impressum</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">MGIN Aufgabe 10</h5>
+                        <hr>
+                        <p class="card-text">
+                            <strong>Name:</strong> Finn Freitag<br>
+                            <strong>Klasse:</strong> 3BHBGM<br>
+                            <strong>Schule:</strong> HTL Spengergasse<br>
+                            <strong>E-Mail:</strong> <a href="mailto:fre220600@spengergasse.at">fre220600@spengergasse.at</a>
+                        </p>
+                        <div class="mt-4">
+                            <a th:href="@{/}" class="btn btn-outline-secondary">Zurück zur Startseite</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

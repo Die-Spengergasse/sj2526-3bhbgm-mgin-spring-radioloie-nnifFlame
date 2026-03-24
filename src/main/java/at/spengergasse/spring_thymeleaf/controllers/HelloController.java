@@ -16,4 +16,14 @@ public class HelloController {
         model.addAttribute("today", LocalDate.now().format(dtf));
         return "index";
     }
+
+    @GetMapping("/impressum")
+    public String impressum() {
+        return "impressum";
+    }
+
+    @GetMapping("/anleitung")
+    public String anleitung() {
+        return "anleitung";
+    }
 }

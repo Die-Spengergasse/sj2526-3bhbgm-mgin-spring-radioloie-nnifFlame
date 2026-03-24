@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: header-head('Gerät hinzufügen')}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <div class="container pb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        <h4 class="mb-0">Neues Gerät hinzufügen</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/devices/add}" th:object="${device}" method="post">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <label class="form-label fw-bold">Bezeichnung (ID)</label>
+                                    <input type="text" th:field="*{id}" class="form-control" placeholder="z.B. MRT-01" required />
+                                    <div class="form-text">Die ID muss eindeutig sein.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Art des Gerätes</label>
+                                    <input type="text" th:field="*{type}" class="form-control" placeholder="z.B. MR, CT, Röntgen" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Standort (Raumnummer)</label>
+                                    <input type="text" th:field="*{location}" class="form-control" placeholder="z.B. Raum 102" required />
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <button type="submit" class="btn btn-dark px-4">Speichern</button>
+                                    <a th:href="@{/}" class="btn btn-outline-secondary ms-2">Abbrechen</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
