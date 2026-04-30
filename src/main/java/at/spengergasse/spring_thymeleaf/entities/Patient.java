@@ -1,6 +1,9 @@
 package at.spengergasse.spring_thymeleaf.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Entity
@@ -9,10 +12,19 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Sozialversicherungsnummer darf nicht leer sein")
+    @Pattern(regexp = "^[0-9]{4}\\s?[0-9]{6}$", message = "Ungültige Sozialversicherungsnummer (Format: 1234 010170)")
     private String socialSecurityNumber;
+
+    @NotBlank(message = "Vorname darf nicht leer sein")
     private String firstName;
+
+    @NotBlank(message = "Nachname darf nicht leer sein")
     private String lastName;
+
     private String gender;
+
+    @PastOrPresent(message = "Geburtsdatum darf nicht in der Zukunft liegen")
     private LocalDate birthDate;
 
     public Patient() {}

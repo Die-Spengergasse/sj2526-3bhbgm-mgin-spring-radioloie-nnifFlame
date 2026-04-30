@@ -1,6 +1,8 @@
 package at.spengergasse.spring_thymeleaf.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,11 +12,15 @@ public class Reservation {
     private Long id;
 
     @ManyToOne
+    @NotNull(message = "Patient muss ausgewählt werden")
     private Patient patient;
 
     @ManyToOne
+    @NotNull(message = "Gerät muss ausgewählt werden")
     private Device device;
 
+    @FutureOrPresent(message = "Termin darf nicht in der Vergangenheit liegen")
+    @NotNull(message = "Termin muss angegeben werden")
     private LocalDateTime reservationTime;
     private String bodyRegion;
     private String comment;

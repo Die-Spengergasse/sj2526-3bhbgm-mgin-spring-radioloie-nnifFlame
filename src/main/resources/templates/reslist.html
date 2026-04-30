@@ -63,7 +63,9 @@
                                 </td>
                                 <td class="py-3 align-middle" th:text="${res.device.type}"></td>
                                 <td class="py-3 px-4 text-end align-middle">
-                                    <button class="btn btn-sm btn-outline-info" th:title="${res.comment}">Info</button>
+                                    <a th:href="@{/reservations/details/{id}(id=${res.id})}" class="btn btn-sm btn-outline-info">
+                                        <i class="bi bi-info-circle"></i> Details
+                                    </a>
                                 </td>
                             </tr>
                             <tr th:if="${reservations.empty}">

@@ -1,8 +1,11 @@
 package at.spengergasse.spring_thymeleaf.controllers;
 
 import at.spengergasse.spring_thymeleaf.entities.*;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -29,7 +32,26 @@ public class ReservationController {
     }
 
     @PostMapping("/add")
-    public String addReservation(@ModelAttribute("reservation") Reservation reservation) {
+    public String addReservation(@Valid @ModelAttribute("reservation") Reservation reservation, BindingResult bindingResult, Model model) {
+        // Überpgrüfung auf Überschneidungen
+        if (reservation.getDevice() != null && reservation.getReservationTime() != null) {
+            if (reservationRepository.existsByDeviceIdAndReservationTime(reservation.getDevice().getId(), reservation.getReservationTime())) {
+                bindingResult.addError(new ObjectError("reservation", "Für dieses Gerät existiert bereits ein Termin zur gleichen Zeit."));
+            }
+        }
+        
+        if (reservation.getPatient() != null && reservation.getReservationTime() != null) {
+            if (reservationRepository.existsByPatientIdAndReservationTime(reservation.getPatient().getId(), reservation.getReservationTime())) {
+                bindingResult.addError(new ObjectError("reservation", "Für diesen Patienten existiert bereits ein Termin zur gleichen Zeit."));
+            }
+        }
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("patients", patientRepository.findAll());
+            model.addAttribute("devices", deviceRepository.findAll());
+            return "add_reservation";
+        }
+        
         reservationRepository.save(reservation);
         return "redirect:/reservations/list?deviceId=" + reservation.getDevice().getId();
     }
@@ -42,5 +64,13 @@ public class ReservationController {
             model.addAttribute("selectedDeviceId", deviceId);
         }
         return "reslist";
+    }
+
+    @GetMapping("/details/{id}")
+    public String showDetails(@PathVariable("id") Long id, Model model) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Ungültige Reservierungs-ID: " + id));
+        model.addAttribute("reservation", reservation);
+        return "res_details";
     }
 }

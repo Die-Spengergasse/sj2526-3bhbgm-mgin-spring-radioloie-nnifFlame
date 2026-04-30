@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: header-head('Reservierungsdetails')}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <div class="container pb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Reservierungsdetails</h2>
+                    <a th:href="@{/reservations/list(deviceId=${reservation.device.id})}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Zurück zur Liste
+                    </a>
+                </div>
+
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-info text-white py-3">
+                        <h5 class="mb-0"><i class="bi bi-info-circle-fill"></i> Informationen zur Reservierung #<span th:text="${reservation.id}"></span></h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-4">
+                            <!-- Patient Info -->
+                            <div class="col-md-6">
+                                <h6 class="text-muted text-uppercase small fw-bold">Patient</h6>
+                                <p class="fs-5 mb-1" th:text="${reservation.patient.lastName + ' ' + reservation.patient.firstName}"></p>
+                                <p class="text-muted mb-0">SV-Nr: <span th:text="${reservation.patient.socialSecurityNumber}"></span></p>
+                                <p class="text-muted mb-0">Geboren am: <span th:text="${#temporals.format(reservation.patient.birthDate, 'dd.MM.yyyy')}"></span></p>
+                            </div>
+                            
+                            <!-- Termin Info -->
+                            <div class="col-md-6">
+                                <h6 class="text-muted text-uppercase small fw-bold">Termin & Ort</h6>
+                                <p class="fs-5 mb-1">
+                                    <i class="bi bi-calendar-event text-primary"></i> 
+                                    <span th:text="${#temporals.format(reservation.reservationTime, 'dd.MM.yyyy HH:mm')}"></span> Uhr
+                                </p>
+                                <p class="mb-0"><strong>Gerät:</strong> <span th:text="${reservation.device.type + ' (' + reservation.device.id + ')'}"></span></p>
+                                <p class="mb-0"><strong>Standort:</strong> <span th:text="${reservation.device.location}"></span></p>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <!-- Medizinische Details -->
+                            <div class="col-md-12">
+                                <h6 class="text-muted text-uppercase small fw-bold">Medizinische Angaben</h6>
+                                <div class="mb-3">
+                                    <label class="fw-bold">Körperregion:</label>
+                                    <span class="badge bg-secondary fs-6" th:text="${reservation.bodyRegion}"></span>
+                                </div>
+                                <div class="bg-light p-3 rounded">
+                                    <label class="fw-bold d-block mb-2">Zusätzlicher Kommentar:</label>
+                                    <p class="mb-0 text-dark italic" th:if="${reservation.comment != null and !reservation.comment.isEmpty()}" th:text="${reservation.comment}"></p>
+                                    <p class="mb-0 text-muted fst-italic" th:unless="${reservation.comment != null and !reservation.comment.isEmpty()}">Kein Kommentar hinterlegt.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a th:href="@{/}" class="btn btn-primary px-4">Home</a>
+                    <button class="btn btn-outline-info" onclick="window.print()">
+                        <i class="bi bi-printer"></i> Drucken
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

@@ -13,24 +13,32 @@
                     </div>
                     <div class="card-body p-4">
                         <form th:action="@{/reservations/add}" th:object="${reservation}" method="post">
+                            <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+                                <ul class="mb-0">
+                                    <li th:each="err : ${#fields.allErrors()}" th:text="${err}"></li>
+                                </ul>
+                            </div>
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <label class="form-label fw-bold">Patient auswählen</label>
-                                    <select th:field="*{patient}" class="form-select" required>
+                                    <select th:field="*{patient}" class="form-select" th:classappend="${#fields.hasErrors('patient')} ? 'is-invalid'" required>
                                         <option value="">-- Patient wählen --</option>
                                         <option th:each="p : ${patients}" th:value="${p.id}" th:text="${p.lastName + ' ' + p.firstName + ' (' + p.socialSecurityNumber + ')'}"></option>
                                     </select>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('patient')}" th:errors="*{patient}"></div>
                                 </div>
                                 <div class="col-md-12">
                                     <label class="form-label fw-bold">Gerät auswählen</label>
-                                    <select th:field="*{device}" class="form-select" required>
+                                    <select th:field="*{device}" class="form-select" th:classappend="${#fields.hasErrors('device')} ? 'is-invalid'" required>
                                         <option value="">-- Gerät wählen --</option>
                                         <option th:each="d : ${devices}" th:value="${d.id}" th:text="${d.type + ' - ID: ' + d.id + ' (' + d.location + ')'}"></option>
                                     </select>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('device')}" th:errors="*{device}"></div>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold">Zeitpunkt der Untersuchung</label>
-                                    <input type="datetime-local" th:field="*{reservationTime}" class="form-control" required />
+                                    <input type="datetime-local" th:field="*{reservationTime}" class="form-control" th:classappend="${#fields.hasErrors('reservationTime')} ? 'is-invalid'" required />
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('reservationTime')}" th:errors="*{reservationTime}"></div>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold">Zu untersuchende Körperregion</label>

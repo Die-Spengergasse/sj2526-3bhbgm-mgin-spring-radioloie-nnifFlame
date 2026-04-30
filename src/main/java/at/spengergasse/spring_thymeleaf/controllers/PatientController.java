@@ -2,8 +2,10 @@ package at.spengergasse.spring_thymeleaf.controllers;
 
 import at.spengergasse.spring_thymeleaf.entities.Patient;
 import at.spengergasse.spring_thymeleaf.entities.PatientRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +33,10 @@ public class PatientController {
     }
 
     @PostMapping("/register")
-    public String registerPatient(@ModelAttribute("patient") Patient patient) {
+    public String registerPatient(@Valid @ModelAttribute("patient") Patient patient, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "add_patient";
+        }
         patientRepository.save(patient);
         return "redirect:/patients/list";
     }

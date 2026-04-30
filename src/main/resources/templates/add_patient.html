@@ -16,15 +16,18 @@
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <label class="form-label fw-bold">Sozialversicherungsnummer</label>
-                                    <input type="text" th:field="*{socialSecurityNumber}" class="form-control" placeholder="z.B. 1234 010170" required />
+                                    <input type="text" th:field="*{socialSecurityNumber}" class="form-control" th:classappend="${#fields.hasErrors('socialSecurityNumber')} ? 'is-invalid'" placeholder="z.B. 1234 010170" required />
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('socialSecurityNumber')}" th:errors="*{socialSecurityNumber}"></div>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold">Vorname</label>
-                                    <input type="text" th:field="*{firstName}" class="form-control" required />
+                                    <input type="text" th:field="*{firstName}" class="form-control" th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'" required />
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold">Nachname</label>
-                                    <input type="text" th:field="*{lastName}" class="form-control" required />
+                                    <input type="text" th:field="*{lastName}" class="form-control" th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'" required />
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold">Geschlecht</label>
@@ -36,7 +39,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold">Geburtsdatum</label>
-                                    <input type="date" th:field="*{birthDate}" class="form-control" required />
+                                    <input type="date" th:field="*{birthDate}" class="form-control" th:classappend="${#fields.hasErrors('birthDate')} ? 'is-invalid'" required />
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}"></div>
                                 </div>
                                 <div class="col-12 mt-4">
                                     <button type="submit" class="btn btn-primary px-4">Registrieren</button>
