@@ -12,6 +12,7 @@ public class Reservation {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "patient_id")
     @NotNull(message = "Patient muss ausgewählt werden")
     private Patient patient;
 

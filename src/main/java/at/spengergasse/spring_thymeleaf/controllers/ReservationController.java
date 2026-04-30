@@ -8,6 +8,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+
 @Controller
 @RequestMapping("/reservations")
 public class ReservationController {
@@ -33,16 +35,22 @@ public class ReservationController {
 
     @PostMapping("/add")
     public String addReservation(@Valid @ModelAttribute("reservation") Reservation reservation, BindingResult bindingResult, Model model) {
-        // Überpgrüfung auf Überschneidungen
+
         if (reservation.getDevice() != null && reservation.getReservationTime() != null) {
-            if (reservationRepository.existsByDeviceIdAndReservationTime(reservation.getDevice().getId(), reservation.getReservationTime())) {
-                bindingResult.addError(new ObjectError("reservation", "Für dieses Gerät existiert bereits ein Termin zur gleichen Zeit."));
+            LocalDateTime start = reservation.getReservationTime().minusMinutes(30);
+            LocalDateTime end = reservation.getReservationTime().plusMinutes(30);
+            
+            if (!reservationRepository.findByDeviceIdAndReservationTimeBetween(reservation.getDevice().getId(), start, end).isEmpty()) {
+                bindingResult.addError(new ObjectError("reservation", "Dieses Gerät ist im Zeitraum von 30 Minuten um diesen Termin bereits belegt."));
             }
         }
         
         if (reservation.getPatient() != null && reservation.getReservationTime() != null) {
-            if (reservationRepository.existsByPatientIdAndReservationTime(reservation.getPatient().getId(), reservation.getReservationTime())) {
-                bindingResult.addError(new ObjectError("reservation", "Für diesen Patienten existiert bereits ein Termin zur gleichen Zeit."));
+            LocalDateTime start = reservation.getReservationTime().minusMinutes(30);
+            LocalDateTime end = reservation.getReservationTime().plusMinutes(30);
+
+            if (!reservationRepository.findByPatientIdAndReservationTimeBetween(reservation.getPatient().getId(), start, end).isEmpty()) {
+                bindingResult.addError(new ObjectError("reservation", "Dieser Patient hat bereits einen Termin im Zeitraum von 30 Minuten um diese Zeit."));
             }
         }
 
@@ -62,6 +70,8 @@ public class ReservationController {
         if (deviceId != null && !deviceId.isEmpty()) {
             model.addAttribute("reservations", reservationRepository.findByDeviceIdOrderByReservationTimeAsc(deviceId));
             model.addAttribute("selectedDeviceId", deviceId);
+        } else {
+            model.addAttribute("reservations", reservationRepository.findAllByOrderByReservationTimeAsc());
         }
         return "reslist";
     }

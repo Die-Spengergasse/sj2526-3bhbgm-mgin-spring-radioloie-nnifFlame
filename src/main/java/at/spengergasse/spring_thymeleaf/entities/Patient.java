@@ -5,12 +5,17 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> reservations = new ArrayList<>();
 
     @NotBlank(message = "Sozialversicherungsnummer darf nicht leer sein")
     @Pattern(regexp = "^[0-9]{4}\\s?[0-9]{6}$", message = "Ungültige Sozialversicherungsnummer (Format: 1234 010170)")

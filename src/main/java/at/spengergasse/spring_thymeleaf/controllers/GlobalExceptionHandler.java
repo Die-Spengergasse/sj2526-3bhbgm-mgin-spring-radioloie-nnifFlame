@@ -23,4 +23,16 @@ public class GlobalExceptionHandler {
         model.addAttribute("errorMessage", "Die Verbindung zur Datenbank konnte nicht hergestellt werden. Bitte stellen Sie sicher, dass MySQL (XAMPP) gestartet ist.");
         return "error_db";
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String handleNotFoundError(Exception ex, Model model) {
+        model.addAttribute("errorMessage", "Der angeforderte Datensatz wurde nicht gefunden. Er wurde möglicherweise bereits gelöscht.");
+        return "error_db";
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String handleGeneralError(Exception ex, Model model) {
+        model.addAttribute("errorMessage", "Ein unerwarteter Fehler ist aufgetreten: " + ex.getMessage());
+        return "error_db";
+    }
 }

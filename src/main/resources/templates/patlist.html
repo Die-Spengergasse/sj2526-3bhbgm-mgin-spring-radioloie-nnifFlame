@@ -22,6 +22,7 @@
                                 <th class="py-3">Name</th>
                                 <th class="py-3">Geschlecht</th>
                                 <th class="py-3">Geburtsdatum</th>
+                                <th class="py-3 px-4 text-end">Aktionen</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,9 +33,16 @@
                                     <span class="badge rounded-pill bg-info text-dark" th:text="${p.gender}"></span>
                                 </td>
                                 <td class="py-3 align-middle" th:text="${#temporals.format(p.birthDate, 'dd.MM.yyyy')}"></td>
+                                <td class="py-3 px-4 text-end align-middle">
+                                    <form th:action="@{/patients/delete/{id}(id=${p.id})}" method="post" onsubmit="return confirm('Möchten Sie diesen Patienten wirklich löschen? Alle zugehörigen Reservierungen werden ebenfalls gelöscht.');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i> Löschen
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                             <tr th:if="${patients.empty}">
-                                <td colspan="4" class="text-center py-5 text-muted">Keine Patienten registriert.</td>
+                                <td colspan="5" class="text-center py-5 text-muted">Keine Patienten registriert.</td>
                             </tr>
                         </tbody>
                     </table>
